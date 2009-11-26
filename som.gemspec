@@ -22,7 +22,12 @@ Gem::Specification.new do |s|
      "LICENSE",
      "README.rdoc",
      "Rakefile",
+     "VERSION",
+     "examples/example.rb",
      "lib/som.rb",
+     "lib/som/node.rb",
+     "som.gemspec",
+     "spec/node_spec.rb",
      "spec/som_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb"
