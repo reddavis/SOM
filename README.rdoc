@@ -1,18 +1,24 @@
-= som
+= SOM - Self Organising Map
 
-Description goes here.
+A pure Ruby implementation of the Self Organising Map machine learning Algorithm.
 
-== Note on Patches/Pull Requests
+== Install
  
-* Fork the project.
-* Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a
-  future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but
-   bump version in a commit by itself I can ignore when I pull)
-* Send me a pull request. Bonus points for topic branches.
+  gem sources -a -http://gemcutter.org
+  sudo gem install som
+  
+== How To Use
+  
+  require 'rubygems'
+  require 'som'
+  
+  a = SOM.new(:number_of_nodes => 4, :dimensions => 3)
+  a.train(data)
+
+  # Returns the index of the data you gave it
+  a.inspect
+    #=> [[1, 0...], [99, 84...], [11, 23...], [2, 6...]]
 
 == Copyright
 
-Copyright (c) 2009 reddavis. See LICENSE for details.
+Copyright (c) 2009 Red Davis. See LICENSE for details.
