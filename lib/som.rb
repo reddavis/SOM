@@ -1,8 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/som/node')
+require 'normalizer'
 
 class SOM
   
-  def initialize(options={})
+  def initialize(training_data, options={})
+    @training_data = training_data
     @number_of_nodes = options[:nodes] || 5
     @dimensions = options[:dimensions]
     @learning_rate = options[:learning_rate] || 0.5
@@ -11,19 +13,20 @@ class SOM
     @max_iterations = options[:max_iterations] || 500
     # TODO: Allow a lambda so we can use different neighborhood functions
     @neighborhood_function = options[:neighborhood_function] || 1
-    create_nodes
   end
   
   def nodes
     @nodes ||= []
   end
   
-  def train(data)
-    while train_it!(data)
+  def train
+    create_nodes(@training_data)
+    
+    while train_it!(@training_data)
     end
     # Place the data in the nodes buckets so we can see how
     # The data has been clustered
-    place_data_into_buckets(data)
+    place_data_into_buckets(@training_data)
   end
   
   # Returns an array of buckets containing the index of the data given
@@ -100,8 +103,9 @@ class SOM
     closest_node[0]
   end
   
-  def create_nodes
-    @number_of_nodes.times { nodes << Node.new(@dimensions) }
+  def create_nodes(data)
+    max_weights = Normalizer.find_min_and_max(data)[1]
+    @number_of_nodes.times { nodes << Node.new(@dimensions, max_weights) }
   end
   
 end

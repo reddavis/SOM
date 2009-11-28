@@ -11,7 +11,7 @@ A pure Ruby implementation of the Self Organising Map machine learning Algorithm
   
   require 'rubygems'
   require 'som'
-  
+
   a = SOM.new(:number_of_nodes => 4, :dimensions => 3)
   a.train(data)
 

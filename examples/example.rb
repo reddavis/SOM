@@ -1,10 +1,12 @@
+require 'rubygems'
+require File.expand_path(File.dirname(__FILE__) + '/som_data')
 require File.expand_path(File.dirname(__FILE__) + '/../lib/som')
 
-data = Array.new(100) {Array.new(3) {rand}}
+data = SOM_DATA
 
-a = SOM.new(:number_of_nodes => 4, :dimensions => 3)
+a = SOM.new(data, :nodes => 8, :dimensions => 4)
 
-a.train(data)
+a.train
 
 # Returns the index of the data you gave it
 puts a.inspect.inspect

@@ -2,8 +2,8 @@ class Node
   
   attr_reader :bucket
   
-  def initialize(number_of_weights)
-    create_weights(number_of_weights)
+  def initialize(number_of_weights, max_weights)
+    create_weights(number_of_weights, max_weights)
     @bucket = []
   end
   
@@ -33,9 +33,9 @@ class Node
   
   private
   
-  def create_weights(number_of_weights)
-    number_of_weights.times do
-      weights << (rand > 0.5 ? -rand : rand)
+  def create_weights(number_of_weights, max_weights)
+    number_of_weights.times do |n|
+      weights << rand(max_weights[n])
     end
   end
   
