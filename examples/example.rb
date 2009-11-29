@@ -1,12 +1,30 @@
-require 'rubygems'
 require File.expand_path(File.dirname(__FILE__) + '/som_data')
 require File.expand_path(File.dirname(__FILE__) + '/../lib/som')
+require 'benchmark'
 
-data = SOM_DATA
+require 'rubygems'
+require 'normalizer'
 
-a = SOM.new(data, :nodes => 8, :dimensions => 4)
+min, max = Normalizer.find_min_and_max(SOM_DATA)
 
-a.train
+normalizer = Normalizer.new(:min => min, :max => max)
 
-# Returns the index of the data you gave it
-puts a.inspect.inspect
+data = []
+
+SOM_DATA.each do |n|
+  data << normalizer.normalize(n)
+end
+  
+a = SOM.new(data, :nodes => 10, :dimensions => data[0].size)
+
+puts a.nodes.inspect
+
+puts a.global_distance_error
+
+times = Benchmark.measure do
+  a.train
+end
+
+puts a.global_distance_error
+
+puts times

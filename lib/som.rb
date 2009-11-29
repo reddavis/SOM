@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/som/node')
-require 'normalizer'
 
 class SOM
   
@@ -9,10 +8,12 @@ class SOM
     @dimensions = options[:dimensions]
     @learning_rate = options[:learning_rate] || 0.5
     @radius = options[:radius] || @number_of_nodes / 2
-    @iteration_count = 0
-    @max_iterations = options[:max_iterations] || 500
+    @iteration_count = 1
+    @max_iterations = options[:max_iterations] || 100
     # TODO: Allow a lambda so we can use different neighborhood functions
     @neighborhood_function = options[:neighborhood_function] || 1
+    
+    create_nodes(training_data)
   end
   
   def nodes
@@ -20,8 +21,6 @@ class SOM
   end
   
   def train
-    create_nodes(@training_data)
-    
     while train_it!(@training_data)
     end
     # Place the data in the nodes buckets so we can see how
@@ -44,11 +43,18 @@ class SOM
     closest_node.bucket
   end
   
+  # Taken from AI4R SOM library #107
+  def global_distance_error
+    @training_data.inject(0) do |sum, n|
+      sum + find_closest(n)[1]
+    end
+  end
+  
   private
   
   def train_it!(data)
     return false if @iteration_count >= @max_iterations
-    
+        
     data.each do |input|
       # Update closest node
       closest_node = find_closest_node(input)
@@ -57,14 +63,12 @@ class SOM
       # Update nodes that closer than the radius
       other_nodes = nodes - [closest_node]
       other_nodes.each do |node|
-        next if @radius > node.distance_from(closest_node.weights)
+        next if decayed_radius > node.distance_from(closest_node.weights)
       
         node.update_weight(@learning_rate, input, neighborhood_function)
       end
     end
     
-    decrease_radius!
-    decrease_learning_rate!
     increase_iteration_count!
   end
   
@@ -75,14 +79,14 @@ class SOM
     end
   end
   
-  def decrease_radius!
-    @radius = 0.5 * @radius * @iteration_count / @max_iterations
+  def decayed_radius
+    @radius - (0.1 * @radius * @iteration_count / @max_iterations)
   end
   
-  def decrease_learning_rate!
-    @learning_rate = 0.5 * @learning_rate * @iteration_count / @max_iterations
+  def decayed_learning_rate
+    @learning_rate - (0.5 * @learning_rate * @iteration_count / @max_iterations)
   end
-  
+    
   def increase_iteration_count!
     @iteration_count += 1
   end
@@ -92,6 +96,10 @@ class SOM
   end
   
   def find_closest_node(data)
+    find_closest(data)[0]
+  end
+  
+  def find_closest(data)
     closest_node = [nodes[0], nodes[0].distance_from(data)]
     
     nodes[1..-1].each do |node|
@@ -100,12 +108,11 @@ class SOM
         closest_node = [node, distance]
       end
     end
-    closest_node[0]
+    closest_node
   end
-  
+    
   def create_nodes(data)
-    max_weights = Normalizer.find_min_and_max(data)[1]
-    @number_of_nodes.times { nodes << Node.new(@dimensions, max_weights) }
+    @number_of_nodes.times { nodes << Node.new(@dimensions) }
   end
   
 end

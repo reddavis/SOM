@@ -1,3 +1,5 @@
+# Taken from AI4R Gem
+
 # data is from the iris dataset (http://archive.ics.uci.edu/ml/datasets/Iris)
 # it is the full dataset, removing the last column
 # website provides additional information on the dataset itself (attributes, class distribution, etc)

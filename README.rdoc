@@ -11,9 +11,11 @@ A pure Ruby implementation of the Self Organising Map machine learning Algorithm
   
   require 'rubygems'
   require 'som'
-
-  a = SOM.new(:number_of_nodes => 4, :dimensions => 3)
-  a.train(data)
+  
+  data = [[1,2,3], [4,5,6]...]
+  
+  a = SOM.new(data, :number_of_nodes => 4, :dimensions => 3)
+  a.train
 
   # Returns the index of the data you gave it
   a.inspect

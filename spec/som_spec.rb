@@ -15,7 +15,7 @@ describe "Som" do
       before.should_not == after
     end
     
-    it "should will the nodes bucket with the data" do
+    it "should fill the nodes bucket with the data" do
       @a.train
       @a.nodes[0].bucket.should_not be_empty
     end
@@ -66,6 +66,17 @@ describe "Som" do
       @a.train
       @a.classify([1,1]).should be_an(Array)
       @a.classify([1,1]).size.should == 1
+    end
+  end
+  
+  describe "Global Distance Error" do
+    before do
+      data = [[0,0], [999,999]]
+      @a = SOM.new(data, :nodes => 2, :dimensions => 2)
+    end
+    
+    it "should return an integer" do
+      @a.global_distance_error.should be_a(Float)
     end
   end
 end
