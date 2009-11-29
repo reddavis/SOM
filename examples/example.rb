@@ -5,6 +5,8 @@ require 'benchmark'
 require 'rubygems'
 require 'normalizer'
 
+#SOM_DATA = Array.new(100) { Array.new(50) {rand}}
+
 min, max = Normalizer.find_min_and_max(SOM_DATA)
 
 normalizer = Normalizer.new(:min => min, :max => max)
@@ -15,7 +17,11 @@ SOM_DATA.each do |n|
   data << normalizer.normalize(n)
 end
   
-a = SOM.new(data, :nodes => 10, :dimensions => data[0].size)
+a = SOM.new(data, :nodes => 8, 
+                  :dimensions => data[0].size,
+                  :verbose => false,
+                  :max_iterations => 100,
+                  :radius => 0.8)
 
 puts a.nodes.inspect
 
@@ -26,5 +32,7 @@ times = Benchmark.measure do
 end
 
 puts a.global_distance_error
+
+#puts a.nodes.inspect
 
 puts times

@@ -12,6 +12,7 @@ class SOM
     @max_iterations = options[:max_iterations] || 100
     # TODO: Allow a lambda so we can use different neighborhood functions
     @neighborhood_function = options[:neighborhood_function] || 1
+    @verbose = options[:verbose] || false
     
     create_nodes(training_data)
   end
@@ -54,17 +55,23 @@ class SOM
   
   def train_it!(data)
     return false if @iteration_count >= @max_iterations
-        
-    data.each do |input|
+    
+    print_message("Iteration: #{@iteration_count}")
+    
+    data.each_with_index do |input, index|
+      print_message("\tLooking at data #{index+1}/#{data.size}")
+      
       # Update closest node
+      print_message("\t\tUpdating closest node")
       closest_node = find_closest_node(input)
       closest_node.update_weight(@learning_rate, input)
     
       # Update nodes that closer than the radius
       other_nodes = nodes - [closest_node]
-      other_nodes.each do |node|
-        next if decayed_radius > node.distance_from(closest_node.weights)
-      
+      other_nodes.each_with_index do |node, index|
+        next if node.distance_from(closest_node.weights) > decayed_radius
+        
+        print_message("\t\tUpdating other nodes: #{index+1}/#{other_nodes.size}")
         node.update_weight(@learning_rate, input, neighborhood_function)
       end
     end
@@ -80,11 +87,11 @@ class SOM
   end
   
   def decayed_radius
-    @radius - (0.1 * @radius * @iteration_count / @max_iterations)
+    @radius - (0.7 * @radius * @iteration_count / @max_iterations)
   end
   
   def decayed_learning_rate
-    @learning_rate - (0.5 * @learning_rate * @iteration_count / @max_iterations)
+    @learning_rate - (0.7 * @learning_rate * @iteration_count / @max_iterations)
   end
     
   def increase_iteration_count!
@@ -113,6 +120,10 @@ class SOM
     
   def create_nodes(data)
     @number_of_nodes.times { nodes << Node.new(@dimensions) }
+  end
+  
+  def print_message(message)
+    puts message if @verbose == true
   end
   
 end
