@@ -34,7 +34,7 @@ class SOM
   
   # Returns an array of buckets containing the index of the training data
   def inspect
-    nodes.map {|x| x.bucket}
+    nodes.map {|x| [x.id, x.bucket] }
   end
   
   # Return training data from the node that is closest to input data

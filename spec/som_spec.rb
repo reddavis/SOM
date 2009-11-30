@@ -32,12 +32,15 @@ describe "Som" do
     before do
       data = [[2,3]]
       @a = SOM.new(data, :nodes => 1)
+      @a.train
+    end
+    
+    it "should return the id of the nodes" do
+      @a.inspect[0][0].should == 0
     end
     
     it "should show the clusters of data indexes" do
-      @a.train
-      @a.inspect.should be_an(Array)
-      @a.inspect.size.should == 1
+      @a.inspect[0][1].should be_an(Array)
     end
   end
   

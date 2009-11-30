@@ -27,9 +27,10 @@ A pure Ruby implementation of the Self Organising Map machine learning algorithm
   a.classify(new_data)
     #=> [node_index, [training_data_index_1, training_data_index_2...]]
 
-  # Returns the index of the data you gave it
+  # Returns the id of a node and the 
+  # index of the data that belongs to it
   a.inspect
-    #=> [[1, 0...], [99, 84...], [11, 23...], [2, 6...]]
+    #=> [[0, [1, 0...]], [1, [99, 84...]], [2, [11, 23...]]]
     
 == Options
 
