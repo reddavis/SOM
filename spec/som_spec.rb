@@ -4,7 +4,7 @@ describe "Som" do
   describe "Training" do
     before do
       @data = [[0,0], [0,0.5], [2,4], [6,5]]
-      @a = SOM.new(@data, :nodes => 1, :dimensions => 2)
+      @a = SOM.new(@data, :nodes => 1)
     end
     
     it "should change the weight of the best matching node" do
@@ -33,7 +33,7 @@ describe "Som" do
   describe "Inspect" do
     before do
       data = [[2,3]]
-      @a = SOM.new(data, :nodes => 1, :dimensions => 2)
+      @a = SOM.new(data, :nodes => 1)
     end
     
     it "should show the clusters of data indexes" do
@@ -46,7 +46,7 @@ describe "Som" do
   describe "Clustering" do
     before do
       data = [[0,0], [999,999]]
-      @a = SOM.new(data, :nodes => 2, :dimensions => 2)
+      @a = SOM.new(data, :nodes => 2)
     end
     
     it "should belong to 2 seperate nodes" do
@@ -59,7 +59,7 @@ describe "Som" do
   describe "Classify" do
     before do
       data = [[0,0], [999,999]]
-      @a = SOM.new(data, :nodes => 2, :dimensions => 2)
+      @a = SOM.new(data, :nodes => 2)
     end
     
     it "should belong to 2 seperate nodes" do
@@ -72,7 +72,7 @@ describe "Som" do
   describe "Global Distance Error" do
     before do
       data = [[0,0], [999,999]]
-      @a = SOM.new(data, :nodes => 2, :dimensions => 2)
+      @a = SOM.new(data, :nodes => 2)
     end
     
     it "should return an integer" do

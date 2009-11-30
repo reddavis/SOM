@@ -1,10 +1,10 @@
 = SOM - Self Organising Map
 
-A pure Ruby implementation of the Self Organising Map machine learning Algorithm.
+A pure Ruby implementation of the Self Organising Map machine learning algorithm.
 
 == Install
  
-  gem sources -a -http://gemcutter.org
+  gem sources -a http://gemcutter.org
   sudo gem install som
   
 == How To Use
@@ -16,10 +16,28 @@ A pure Ruby implementation of the Self Organising Map machine learning Algorithm
   
   a = SOM.new(data, :number_of_nodes => 4, :dimensions => 3)
   a.train
+  
+  # To see which class a new piece of data fits into
+  new_data = [9,8,7]
+  
+  # An array is returned containing the index of the 
+  # training data that fits into the same class
+  # The index is the same as the index in the training data e.g:
+  # data[index_returned_by_SOM (2)] == data[2]
+  a.classify(new_data)
+    #=> [[2], [6], [2], [8]]
 
   # Returns the index of the data you gave it
   a.inspect
     #=> [[1, 0...], [99, 84...], [11, 23...], [2, 6...]]
+    
+== Options
+
+  SOM.new(data, :number_of_nodes => 1,   #Default: 5
+                :learning_rate => 0.7,   #Default: 0.5
+                :radius => 1,            #Default: number_of_nodes / 2
+                :max_iterations => 100,  #Default: 100
+                :verbose => true)        #Default: false
 
 == Copyright
 

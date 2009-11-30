@@ -18,12 +18,7 @@ SOM_DATA.each do |n|
 end
   
 a = SOM.new(data, :nodes => 8, 
-                  :dimensions => data[0].size,
-                  :verbose => false,
-                  :max_iterations => 100,
                   :radius => 0.8)
-
-puts a.nodes.inspect
 
 puts a.global_distance_error
 
