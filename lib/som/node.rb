@@ -1,9 +1,10 @@
 class Node
   
-  attr_reader :bucket
+  attr_reader :bucket, :id
   
-  def initialize(number_of_weights)
+  def initialize(id, number_of_weights)
     create_weights(number_of_weights)
+    @id = id
     @bucket = []
   end
   

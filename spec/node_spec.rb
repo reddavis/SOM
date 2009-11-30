@@ -3,18 +3,22 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe "Node" do
   describe "Initialization" do
     before do
-      @a = Node.new(5)
+      @a = Node.new(1, 5)
     end
     
     it "should have 5 weights" do
       @a.weights.size.should == 5
     end
+    
+    it "should have an ID" do
+      @a.id.should == 1
+    end
   end
   
   describe "Distance Calculation" do
     before do
-      @a = Node.new(2)
-      @b = Node.new(2)
+      @a = Node.new(1, 2)
+      @b = Node.new(1, 2)
     end
     
     it "should return 0" do
@@ -37,7 +41,7 @@ describe "Node" do
   describe "Update Weight" do
     describe "Closest" do
       before do
-        @a = Node.new(2)
+        @a = Node.new(1, 2)
         @data = [1,2]
       end
     
@@ -50,7 +54,7 @@ describe "Node" do
     
     describe "Neighbor" do
       before do
-        @a = Node.new(2)
+        @a = Node.new(1, 2)
         @data = [1,2]
       end
     
@@ -64,7 +68,7 @@ describe "Node" do
   
   describe "Bucket" do
     before do
-      @a = Node.new(2)
+      @a = Node.new(1, 2)
     end
     
     it "should put data into the nodes bucket" do

@@ -25,7 +25,7 @@ A pure Ruby implementation of the Self Organising Map machine learning algorithm
   # The index is the same as the index in the training data e.g:
   # data[index_returned_by_SOM (2)] == data[2]
   a.classify(new_data)
-    #=> [[2], [6], [2], [8]]
+    #=> [node_index, [training_data_index_1, training_data_index_2...]]
 
   # Returns the index of the data you gave it
   a.inspect

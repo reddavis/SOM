@@ -34,17 +34,17 @@ class SOM
   
   # Returns an array of buckets containing the index of the training data
   def inspect
-    nodes.map {|x| x.bucket.map {|x| x[0]}}
+    nodes.map {|x| x.bucket}
   end
   
   # Return training data from the node that is closest to input data
-  # You are returned a bucket which contains arrays that look like:
-  # [index, [data]]
+  # You are returned an array that look like:
+  # [node_id, [training_data_index_1, training_data_index_2...]]
   # The index is the original index of that that was pumped into the SOM
   # during the training process
   def classify(data)
     closest_node = find_closest_node(data)
-    closest_node.bucket
+    [closest_node.id, closest_node.bucket]
   end
   
   # Taken from AI4R SOM library #107
@@ -88,7 +88,7 @@ class SOM
   def place_data_into_buckets(data)
     data.each_with_index do |input, index|
       closest_node = find_closest_node(input)
-      closest_node << [index, input]
+      closest_node << index
     end
   end
   
@@ -127,7 +127,9 @@ class SOM
   end
   
   def create_nodes(data)
-    @number_of_nodes.times { nodes << Node.new(@dimensions) }
+    @number_of_nodes.times do |n|
+      nodes << Node.new(n, @dimensions)
+    end
   end
   
   def print_message(message)

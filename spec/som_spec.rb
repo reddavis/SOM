@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe "Som" do  
   describe "Training" do
     before do
-      @data = [[0,0], [0,0.5], [2,4], [6,5]]
+      @data = [[0,0]]
       @a = SOM.new(@data, :nodes => 1)
     end
     
@@ -22,11 +22,9 @@ describe "Som" do
     
     it "should preserve data indexes" do
       @a.train
-      
-      index_returned = @a.nodes[0].bucket[0][0]
-      data_returned = @a.nodes[0].bucket[0][1]
-      
-      @data[index_returned].should == data_returned
+            
+      index_returned = @a.nodes[0].bucket[0]
+      index_returned.should == 0
     end
   end
   
@@ -59,13 +57,22 @@ describe "Som" do
   describe "Classify" do
     before do
       data = [[0,0], [999,999]]
-      @a = SOM.new(data, :nodes => 2)
+      a = SOM.new(data, :nodes => 1)
+      a.train
+      @a = a.classify([1,1])
     end
     
     it "should belong to 2 seperate nodes" do
-      @a.train
-      @a.classify([1,1]).should be_an(Array)
-      @a.classify([1,1]).size.should == 1
+      @a.should be_an(Array)
+      @a.size.should == 2
+    end
+    
+    it "should return a node id" do
+      @a[0].should == 0
+    end
+    
+    it "should return an array of training_data ids" do
+      @a[1].should be_an(Array)
     end
   end
   
