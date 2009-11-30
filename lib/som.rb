@@ -9,7 +9,7 @@ class SOM
     
     # Options
     @number_of_nodes = options[:nodes] || 5
-    @learning_rate = options[:learning_rate] || 0.5
+    @learning_rate = options[:learning_rate] || 0.7
     @radius = options[:radius] || @number_of_nodes / 2
     @max_iterations = options[:max_iterations] || 100
     
