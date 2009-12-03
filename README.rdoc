@@ -32,13 +32,31 @@ A pure Ruby implementation of the Self Organising Map machine learning algorithm
   a.inspect
     #=> [[0, [1, 0...]], [1, [99, 84...]], [2, [11, 23...]]]
     
+You can also save your SOM and load a previously save SOM:
+
+  require 'rubygems'
+  require 'som'
+  
+  data = [[1,2,3], [4,5,6]...]
+  
+  a = SOM.new(data, :number_of_nodes => 4, 
+                    :dimensions => 3,
+                    :save_to => 'file_path/to/here.som')
+
+  a.train # Saves it
+  
+  b = SOM.load('file_path/to/here.som') # Loads it
+  
+  b.classify(new_data) # etc...
+    
 == Options
 
   SOM.new(data, :number_of_nodes => 1,   #Default: 5
                 :learning_rate => 0.7,   #Default: 0.5
                 :radius => 1,            #Default: number_of_nodes / 2
                 :max_iterations => 100,  #Default: 100
-                :verbose => true)        #Default: false
+                :verbose => true,        #Default: false
+                :save_to => 'file_path') #Default: nil
 
 == Copyright
 
