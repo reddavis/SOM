@@ -2,6 +2,18 @@ require File.expand_path(File.dirname(__FILE__) + '/som/node')
 
 class SOM
   
+  class << self
+    def load(db_filepath)
+      data = ""
+      File.open(db_filepath) do |f|
+        while line = f.gets
+          data << line
+        end
+      end
+      Marshal.load(data)
+    end
+  end
+  
   def initialize(training_data, options={})
     @training_data = training_data
     @dimensions = training_data[0].size
@@ -12,6 +24,7 @@ class SOM
     @learning_rate = options[:learning_rate] || 0.7
     @radius = options[:radius] || @number_of_nodes / 2
     @max_iterations = options[:max_iterations] || 100
+    @db_filepath = options[:save_to]
     
     # TODO: Allow a lambda so we can use different neighborhood functions
     @neighborhood_function = 1 #options[:neighborhood_function] || 1
@@ -30,6 +43,7 @@ class SOM
     # Place the data in the nodes buckets so we can see how
     # The data has been clustered
     place_data_into_buckets(@training_data)
+    save
   end
   
   # Returns an array of buckets containing the index of the training data
@@ -55,6 +69,14 @@ class SOM
   end
   
   private
+  
+  def save
+    if @db_filepath
+      File.open(@db_filepath, "w+") do |f|
+        f.write Marshal.dump(self)
+      end
+    end
+  end
   
   def train_it!(data)
     return false if @iteration_count >= @max_iterations

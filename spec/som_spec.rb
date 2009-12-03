@@ -89,4 +89,36 @@ describe "Som" do
       @a.global_distance_error.should be_a(Float)
     end
   end
+  
+  describe "Saving" do
+    before do
+      data = [[0,0], [999,999]]
+      @a = SOM.new(data, :nodes => 5, :save_to => save_to_filepath)
+    end
+    
+    it "should save the SOM where specified" do
+      FileUtils.rm(save_to_filepath, :force => true)
+      @a.train
+      File.exists?(save_to_filepath).should be_true
+    end
+  end
+  
+  describe "Loading" do
+    before do |variable|
+      data = [[0,0], [999,999]]
+      a = SOM.new(data, :nodes => 5, :save_to => save_to_filepath)
+      a.train
+    end
+    
+    it "should have 5 nodes" do
+      a = SOM.load(save_to_filepath)
+      a.nodes.size.should == 5
+    end
+  end
+  
+  private
+  
+  def save_to_filepath
+    File.expand_path(File.dirname(__FILE__) + '/db/som.som')
+  end
 end
