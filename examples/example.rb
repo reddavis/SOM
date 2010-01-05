@@ -17,17 +17,16 @@ SOM_DATA.each do |n|
   data << normalizer.normalize(n)
 end
   
-a = SOM.new(data, :nodes => 8, 
-                  :radius => 0.8)
+a = SOM.new(data, :nodes => 8)
 
-puts a.global_distance_error
+#puts a.global_distance_error
 
 times = Benchmark.measure do
   a.train
 end
 
-puts a.global_distance_error
+#puts a.global_distance_error
 
 #puts a.nodes.inspect
 
-puts times
+#puts times

@@ -95,9 +95,12 @@ class SOM
       # Update nodes that closer than the radius
       other_nodes = nodes - [closest_node]
       other_nodes.each_with_index do |node, index|
-        next if node.distance_from(closest_node.weights) > decayed_radius
+        distance_from_node = node.distance_from(closest_node.weights)
+        print_message("\t\tDistance from node: #{distance_from_node}")
         
-        print_message("\t\tUpdating other nodes: #{index+1}/#{other_nodes.size}")
+        next if distance_from_node > decayed_radius
+        
+        print_message("\t\t\tUpdating other nodes: #{index+1}/#{other_nodes.size}")
         
         node.update_weight(@learning_rate, input, neighborhood_function)
       end
